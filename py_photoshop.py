@@ -90,6 +90,7 @@ frm_actions = tk.Frame(root)
 frm_actions.grid(column=1, row=0, padx=10, pady=10, ipadx=5, ipady=5)
 
 
+# TODO Kod ucitavanja nove slike ovo se ne osvjezava, popraviti
 lbl_image_data_var = tk.StringVar(value=get_image_data())
 lbl_image_data = tk.Label(frm_actions,
                           text='Podaci o fotografiji',
