@@ -31,6 +31,15 @@ frm_actions = tk.Frame(root)
 frm_actions.grid(column=1, row=0, padx=10, pady=10, ipadx=5, ipady=5)
 
 
+btn_save = tk.Button(frm_actions,
+                     text='Save')
+btn_save.grid(column=0, row=0, padx=10, pady=10, ipadx=10, ipady=10)
+btn_open = tk.Button(frm_actions,
+                     text='Open')
+btn_open.grid(column=1, row=0, padx=10, pady=10, ipadx=10, ipady=10)
+btn_reset = tk.Button(frm_actions,
+                      text='Reset')
+btn_reset.grid(column=2, row=0, padx=10, pady=10, ipadx=10, ipady=10)
 
 #endregion
 
