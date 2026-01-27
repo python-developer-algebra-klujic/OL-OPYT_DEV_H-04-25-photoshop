@@ -5,17 +5,21 @@ from PIL import Image, ImageTk
 
 
 temp_image = None
+original_image = None
 def update_temp_image(updated_image: Image.Image):
     global temp_image
     temp_image = updated_image
 
 def load_image(image_path='./images/Algebra_campus.jpg'):
+    global original_image
+
     image = Image.open(image_path)
     # TODO ako je slika veca od predefinirane sirine onda je smanji, inace ostavi
     width = int(image.width / 2)
     height = int(image.height / 2)
     image = image.resize(size=(width, height))
     update_temp_image(image)
+    original_image = image
     return image
 
 def get_lbl_image(image=None):
@@ -57,7 +61,7 @@ def open():
     lbl_display_photo.image = lbl_image
 
 def reset():
-    image = load_image()
+    image = original_image
     lbl_image = get_lbl_image(image)
     lbl_display_photo.config(image=lbl_image)
     lbl_display_photo.image = lbl_image
