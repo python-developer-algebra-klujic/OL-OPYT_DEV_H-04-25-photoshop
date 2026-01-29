@@ -100,6 +100,41 @@ def blur(value):
     lbl_display_photo.config(image=lbl_image)
     lbl_display_photo.image = lbl_image
 
+def contour():
+    image = temp_image.copy()
+    image = image.filter(ImageFilter.CONTOUR)
+    # sacuvaj ove promjene u tmp varijabli
+    update_temp_image(image)
+    update_temp_image_blur(image)
+
+    # azurirj korisnicko sucelje (UI)
+    lbl_image = ImageTk.PhotoImage(image=image)
+    lbl_display_photo.config(image=lbl_image)
+    lbl_display_photo.image = lbl_image
+
+def edges():
+    image = temp_image.copy()
+    image = image.filter(ImageFilter.FIND_EDGES)
+    # sacuvaj ove promjene u tmp varijabli
+    update_temp_image(image)
+    update_temp_image_blur(image)
+
+    # azurirj korisnicko sucelje (UI)
+    lbl_image = ImageTk.PhotoImage(image=image)
+    lbl_display_photo.config(image=lbl_image)
+    lbl_display_photo.image = lbl_image
+
+def emboss():
+    image = temp_image.copy()
+    image = image.filter(ImageFilter.EMBOSS)
+    # sacuvaj ove promjene u tmp varijabli
+    update_temp_image(image)
+    update_temp_image_blur(image)
+
+    # azurirj korisnicko sucelje (UI)
+    lbl_image = ImageTk.PhotoImage(image=image)
+    lbl_display_photo.config(image=lbl_image)
+    lbl_display_photo.image = lbl_image
 
 
 
@@ -182,10 +217,6 @@ btn_flip_tb = tk.Button(frm_actions,
                         text='Flip top bottom',
                         command=flip_tb)
 btn_flip_tb.grid(column=2, row=3, padx=10, pady=10, ipadx=10, ipady=10)
-# btn_blur = tk.Button(frm_actions,
-#                         text='Blur',
-#                         command=blur)
-# btn_blur.grid(column=0, columnspan=3, row=4, padx=10, pady=(10,0), ipadx=10, ipady=10)
 lbl_scale_blure = tk.Label(frm_actions,
                            text='Blur radius')
 lbl_scale_blure.grid(column=0, columnspan=3, row=4, padx=10, pady=(10,0), ipadx=10, ipady=10)
@@ -198,6 +229,20 @@ cs_blur = tk.Scale(frm_actions,
                    variable=cs_blur_var,
                    command=blur)
 cs_blur.grid(column=0, columnspan=3, row=5, padx=10, pady=(0,10), ipadx=10, ipady=10)
+btn_contour = tk.Button(frm_actions,
+                        text='Contour',
+                        command=contour)
+btn_contour.grid(column=0, columnspan=3, row=6, padx=10, pady=(10,0), ipadx=10, ipady=10)
+btn_edges = tk.Button(frm_actions,
+                      text='Edges',
+                      command=edges)
+btn_edges.grid(column=0, columnspan=3, row=7, padx=10, pady=(10,0), ipadx=10, ipady=10)
+btn_emboss = tk.Button(frm_actions,
+                       text='Emboss',
+                       command=emboss)
+btn_emboss.grid(column=0, columnspan=3, row=8, padx=10, pady=(10,0), ipadx=10, ipady=10)
+
+
 
 #endregion
 
