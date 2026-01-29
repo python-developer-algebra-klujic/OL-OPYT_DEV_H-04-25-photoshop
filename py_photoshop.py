@@ -7,9 +7,13 @@ from PIL import Image, ImageTk, ImageFilter
 MAX_WIDTH = 2000
 temp_image = None
 original_image = None
+temp_image_blur = None
 def update_temp_image(updated_image: Image.Image):
     global temp_image
     temp_image = updated_image.copy()
+def update_temp_image_blur(updated_image: Image.Image):
+    global temp_image_blur
+    temp_image_blur = updated_image.copy()
 
 def load_image(image_path='./images/Algebra_campus.jpg'):
     global original_image
@@ -21,6 +25,7 @@ def load_image(image_path='./images/Algebra_campus.jpg'):
         image = image.resize(size=(width, height))
 
     update_temp_image(image)
+    update_temp_image_blur(image)
     original_image = image.copy()
     return image
 
@@ -41,6 +46,7 @@ def to_black_white():
     image = image.convert(mode='L')
     # sacuvaj ove promjene u tmp varijabli
     update_temp_image(image)
+    update_temp_image_blur(image)
 
     # azurirj korisnicko sucelje (UI)
     lbl_image = ImageTk.PhotoImage(image=image)
@@ -52,6 +58,7 @@ def flip_tb():
     image = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
     # sacuvaj ove promjene u tmp varijabli
     update_temp_image(image)
+    update_temp_image_blur(image)
 
     # azurirj korisnicko sucelje (UI)
     lbl_image = ImageTk.PhotoImage(image=image)
@@ -63,22 +70,36 @@ def flip_lr():
     image = image.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
     # sacuvaj ove promjene u tmp varijabli
     update_temp_image(image)
+    update_temp_image_blur(image)
 
     # azurirj korisnicko sucelje (UI)
     lbl_image = ImageTk.PhotoImage(image=image)
     lbl_display_photo.config(image=lbl_image)
     lbl_display_photo.image = lbl_image
 
-def blur():
-    image = temp_image.copy()
-    image = image.filter(ImageFilter.GaussianBlur(radius=5))
-    # sacuvaj ove promjene u tmp varijabli
-    update_temp_image(image)
+def blur(value):
+    if int(value) > cs_blur_var.get():
+        image = temp_image.copy()
+        cs_blur_var.set(value=int(value))
+        image = image.filter(ImageFilter.GaussianBlur(radius=cs_blur_var.get()))
+        update_temp_image(image)
+        # azurirj korisnicko sucelje (UI)
+        lbl_image = ImageTk.PhotoImage(image=image)
+        lbl_display_photo.config(image=lbl_image)
+        lbl_display_photo.image = lbl_image
+
+    else:
+        image = temp_image_blur.copy()
+        cs_blur_var.set(value=int(value))
+        image = image.filter(ImageFilter.GaussianBlur(radius=cs_blur_var.get()))
+        update_temp_image(image)
+
 
     # azurirj korisnicko sucelje (UI)
     lbl_image = ImageTk.PhotoImage(image=image)
     lbl_display_photo.config(image=lbl_image)
     lbl_display_photo.image = lbl_image
+
 
 
 
@@ -161,10 +182,22 @@ btn_flip_tb = tk.Button(frm_actions,
                         text='Flip top bottom',
                         command=flip_tb)
 btn_flip_tb.grid(column=2, row=3, padx=10, pady=10, ipadx=10, ipady=10)
-btn_blur = tk.Button(frm_actions,
-                        text='Blur',
-                        command=blur)
-btn_blur.grid(column=0, columnspan=3, row=4, padx=10, pady=10, ipadx=10, ipady=10)
+# btn_blur = tk.Button(frm_actions,
+#                         text='Blur',
+#                         command=blur)
+# btn_blur.grid(column=0, columnspan=3, row=4, padx=10, pady=(10,0), ipadx=10, ipady=10)
+lbl_scale_blure = tk.Label(frm_actions,
+                           text='Blur radius')
+lbl_scale_blure.grid(column=0, columnspan=3, row=4, padx=10, pady=(10,0), ipadx=10, ipady=10)
+cs_blur_var = tk.IntVar(value=0)
+cs_blur = tk.Scale(frm_actions,
+                   from_= 0,
+                   to= 10,
+                   width=300,
+                   orient='horizontal',
+                   variable=cs_blur_var,
+                   command=blur)
+cs_blur.grid(column=0, columnspan=3, row=5, padx=10, pady=(0,10), ipadx=10, ipady=10)
 
 #endregion
 
